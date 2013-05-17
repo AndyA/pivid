@@ -1,2 +1,4 @@
 .*.sw?
 /Session.vim
+/live.m3u8
+/live/

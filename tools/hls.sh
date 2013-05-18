@@ -12,7 +12,7 @@ mkfifo live.h264
 
 raspivid \
   -w 1280 -h 720 -fps 25 -hf \
-  -t 86400000 -b 1800000 -o live.h264 &
+  -t 86400000 -b 1800000 -o - | psips > live.h264 &
 
 sleep 2
 

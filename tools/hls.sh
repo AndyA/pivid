@@ -7,10 +7,15 @@ set -x
 rm -rf live live.h264 "$base/live"
 mkdir -p live
 ln -s "$PWD/live" "$base/live"
+
 mkfifo live.h264
-raspivid -w 1280 -h 720 -fps 25 -vf -t 86400000 -b 1800000 -o live.h264 &
+
+raspivid \
+  -w 1280 -h 720 -fps 25 -hf \
+  -t 86400000 -b 1800000 -o live.h264 &
 
 sleep 2
+
 ffmpeg -y \
   -i live.h264 \
   -f s16le -i /dev/zero -r:a 48000 -ac 2 \

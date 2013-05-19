@@ -18,10 +18,8 @@ sleep 2
 
 ffmpeg -y \
   -i live.h264 \
-  -f s16le -i /dev/zero -r:a 48000 -ac 2 \
   -c:v copy \
-  -c:a libfaac -b:a 128k \
-  -map 0:0 -map 1:0 \
+  -map 0:0 \
   -f segment \
   -segment_time 8 \
   -segment_format mpegts \

@@ -149,7 +149,7 @@ int main(int argc, char *argv[]) {
 
     if (++phase == frames) {
       average(buf, image, bytes, frames);
-      write32(bmp_hdr, 0x22, BMP_HEADER_SIZE + DIB_HEADER_SIZE + bytes);
+      write32(bmp_hdr, 0x02, BMP_HEADER_SIZE + DIB_HEADER_SIZE + bytes);
       write32(bmp_hdr, 0x0a, BMP_HEADER_SIZE + DIB_HEADER_SIZE);
       write32(dib_hdr, 0x00, DIB_HEADER_SIZE);
 

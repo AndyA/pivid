@@ -1,33 +1,38 @@
-#!/bin/bash
+#!/bin/bash 
 
 base="/var/www"
+stamp=$( date +%Y%m%d-%H%M%S )
+session="live-$stamp"
+fifo="live.fifo.h264"
 
 set -x
 
-rm -rf live live.h264 "$base/live"
-mkdir -p live
-
+# bootstrap
 for f in www/*; do
   d="$base/$( basename "$f" )"
   [ -e "$d" ] || cp "$f" "$d"
 done
 
-ln -s "$PWD/live" "$base/live"
+mkdir -p "$session"
 
-mkfifo live.h264
+rm -f "$base/live" "live"
+ln -s "$PWD/$session" "live"
+ln -s "$PWD/$session" "$base/live"
+
+rm -f "$fifo"
+mkfifo "$fifo"
 
 raspivid \
-  -w 1280 -h 720 -fps 25 -hf \
-  -t 86400000 -b 1800000 -o - | psips > live.h264 &
-
-sleep 4
+  -w 1280 -h 720 -fps 25 -g 100 \
+  -t 86400000 -b 3000000 -o - | psips > "$fifo" &
 
 ffmpeg -y \
-  -i live.h264 \
+  -f h264 \
+  -i "$fifo" \
   -c:v copy \
   -map 0:0 \
   -f segment \
-  -segment_time 8 \
+  -segment_time 4 \
   -segment_format mpegts \
   -segment_list "$base/live.m3u8" \
   -segment_list_size 720 \

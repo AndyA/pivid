@@ -8,11 +8,11 @@ use Path::Class;
 
 for my $h264 (@ARGV) {
   my $nals = analyse($h264);
-  show_idr($nals);
+  show_idr( $h264, $nals );
 }
 
 sub show_idr {
-  my $nals  = shift;
+  my ( $name, $nals ) = @_;
   my $frame = 0;
   my @run   = ();
   for my $nal (@$nals) {
@@ -28,7 +28,7 @@ sub show_idr {
       else                                { push @run, [$nf, 1] }
     }
   }
-  print
+  print "$name: ",
    join( ', ', map { $_->[1] == 1 ? $_->[0] : join( ' x ', @$_ ) } @run ),
    "\n";
 }

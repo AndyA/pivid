@@ -31,7 +31,7 @@ mkfifo "$fifo"
 
 raspivid \
   -w 1280 -h 720 -fps 25 -g 100 \
-  -t 0 -b 900000 -o - | psips > "$fifo" &
+  -t 0 -b 1800000 -o - | psips > "$fifo" &
 
 ffmpeg -y \
   -f h264 \

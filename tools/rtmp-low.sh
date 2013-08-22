@@ -14,7 +14,6 @@ mkfifo "$fifo"
 
 raspivid \
   -w 1280 -h 720 -fps 25 -g $gop \
-  -hf -vf \
   -t 0 -b $bitrate -o - | psips > "$fifo" &
 
 ffmpeg -y \

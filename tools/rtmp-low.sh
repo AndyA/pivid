@@ -1,8 +1,8 @@
 #!/bin/bash 
 
-#url=rtmp://newstream.hexten.net:1935/throne/tc1
+url=rtmp://newstream.hexten.net:1935/throne/tc1
 #url=rtmp://mohair.local:1935/throne_mux/tc1
-url=rtmp://mohair.local:1935/throne/tc1
+#url=rtmp://mohair.local:1935/throne/tc1
 fifo="live.fifo.h264"
 bitrate="800000"
 gop="200"

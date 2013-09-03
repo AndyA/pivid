@@ -1,9 +1,9 @@
 #!/bin/bash 
 
 #url=rtmp://newstream.hexten.net:1935/throne/tc1
-url=rtmp://newstream.fenkle:1935/src/mag
+url=rtmp://emit.fenkle:1935/throne/tc1
 fifo="live.fifo.h264"
-bitrate="3800000"
+bitrate="2000000"
 gop="200"
 
 set -x
@@ -13,7 +13,6 @@ mkfifo "$fifo"
 
 raspivid \
   -w 1280 -h 720 -fps 25 -g $gop \
-  -hf -vf \
   -t 0 -b $bitrate -o - | psips > "$fifo" &
 
 ffmpeg -y \

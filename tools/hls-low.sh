@@ -1,6 +1,18 @@
 #!/bin/bash 
 
-base="/var/www"
+function die {
+  echo "$@" 2>&1
+  exit 1
+}
+
+for bd in "/var/www" "/usr/share/nginx/www"; do
+  if [ -d "$bd" ]; then
+    base="$bd"
+    break
+  fi
+done
+[ -z "$base" ] && die "No webroot found"
+
 stamp=$( date +%Y%m%d-%H%M%S )
 session="live-$stamp"
 fifo="live.fifo.h264"
@@ -31,7 +43,7 @@ mkfifo "$fifo"
 
 raspivid \
   -w 1280 -h 720 -fps 25 -g 100 \
-  -t 0 -b 1800000 -o - | psips > "$fifo" &
+  -t 0 -b 3000000 -o - | psips > "$fifo" &
 
 ffmpeg -y \
   -f h264 \
